@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/resource.h>
+#include <sys/wait.h>
 #include <signal.h>
 
 #include "fileManagement.h"
@@ -69,7 +70,7 @@ int isProcessAlreadyRunning(void)
     
     //printf("\nFILE_LockFile returnCode = %d", returnCode);    
     ftruncate(fd, 0);
-    returnCode = snprintf(buf, 100, "%ld", (long)getpid());
+    returnCode = snprintf(buf, sizeof(buf), "%ld", (long)getpid());
     returnCode = write(fd, buf, strlen(buf)+1);
     return(0);
 }

@@ -489,10 +489,10 @@ int parseCommandPasv(ftpDataType * data, int socketId)
 {
     /* Create worker thread */
     void *pReturn;
-    int returnCode;
-    //printf("\n data->clients[%d].workerData.workerThread = %d",socketId,  (int)data->clients[socketId].workerData.workerThread);
+    int returnCode=-1;
 
-    //printf("\n data->clients[%d].workerData.threadHasBeenCreated = %d", socketId,  data->clients[socketId].workerData.threadHasBeenCreated);
+    // printf("\n data->clients[%d].workerData.workerThread = %d",socketId,  (int)data->clients[socketId].workerData.workerThread);
+    // printf("\n data->clients[%d].workerData.threadHasBeenCreated = %d", socketId,  data->clients[socketId].workerData.threadHasBeenCreated);
     if (data->clients[socketId].workerData.threadIsAlive == 1)
     {
     	cancelWorker(data, socketId);
@@ -501,7 +501,7 @@ int parseCommandPasv(ftpDataType * data, int socketId)
     if (data->clients[socketId].workerData.threadHasBeenCreated == 1)
     {
     	returnCode = pthread_join(data->clients[socketId].workerData.workerThread, &pReturn);
-    	printf("\nPASV JOIN RETURN STATUS %d", returnCode);
+    	// printf("\nPASV JOIN RETURN STATUS %d", returnCode);
     }
 
     data->clients[socketId].workerData.passiveModeOn = 1;
@@ -510,7 +510,7 @@ int parseCommandPasv(ftpDataType * data, int socketId)
 
     if (returnCode != 0)
     {
-    	//printf("\nError in pthread_create %d", returnCode);
+    	printf("\nError in pthread_create %d", returnCode);
     	return FTP_COMMAND_PROCESSED_WRITE_ERROR;
     }
 
@@ -773,7 +773,7 @@ int parseCommandAppe(ftpDataType * data, int socketId)
 int parseCommandCwd(ftpDataType * data, int socketId)
 {
     dynamicStringDataType absolutePathPrevious, ftpPathPrevious, theSafePath;
-    int isSafePath;
+    int isSafePath=0;
     int returnCode;
     char *thePath;
 
@@ -1436,7 +1436,7 @@ long long int writeRetrFile(ftpDataType * data, int theSocketId, long long int s
       if (writtenSize <= 0)
       {
 
-    	  printf("\nError %d while writing retr file.", writtenSize);
+    	  printf("\nError %ld while writing retr file.", writtenSize);
           fclose(retrFP);
           retrFP = NULL;
           return -1;
@@ -1573,7 +1573,7 @@ int setPermissions(char * permissionsCommand, char * basePath, ownerShip_DataTyp
     char thePermissionString[MAXIMUM_FILENAME_LEN];
     char theLocalPath[MAXIMUM_FILENAME_LEN];
     char theFinalFilename[MAXIMUM_FILENAME_LEN];
-    int returnCodeSetPermissions, returnCodeSetOwnership;
+    int returnCodeSetPermissions=-1, returnCodeSetOwnership=0;
 
     memset(theLocalPath, 0, MAXIMUM_FILENAME_LEN);
     memset(thePermissionString, 0, MAXIMUM_FILENAME_LEN);
@@ -1650,7 +1650,7 @@ int setPermissions(char * permissionsCommand, char * basePath, ownerShip_DataTyp
     returnCode = strtol(thePermissionString, 0, 8);
     if ((returnCodeSetPermissions = chmod (theFinalFilename, returnCode)) < 0)
     {
-        //printf("\n---> ERROR WHILE SETTING FILE PERMISSION");
+        printf("\n---> ERROR WHILE SETTING FILE PERMISSION");
     }
 
     if (returnCodeSetOwnership != 1 || returnCodeSetPermissions == -1)

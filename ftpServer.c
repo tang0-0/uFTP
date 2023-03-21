@@ -128,14 +128,16 @@ void *connectionWorkerHandle(void * socketId)
   ftpData.clients[theSocketId].workerData.threadHasBeenCreated = 1;
   int returnCode;
 
-  //printf("\nWORKER CREATED!");
+//   printf("\nWORKER CREATED!");
 
   //Passive data connection mode
   if (ftpData.clients[theSocketId].workerData.passiveModeOn == 1)
   {
+    // printf("\nWORKER CREATED passiveModeOn");
     int tries = 30;
     while (tries > 0)
     {
+
         setRandomicPort(&ftpData, theSocketId);
         ftpData.clients[theSocketId].workerData.passiveListeningSocket = createPassiveSocket(ftpData.clients[theSocketId].workerData.connectionPort);
 
@@ -150,7 +152,7 @@ void *connectionWorkerHandle(void * socketId)
     if (ftpData.clients[theSocketId].workerData.passiveListeningSocket == -1)
     {
         ftpData.clients[theSocketId].closeTheClient = 1;
-        //printf("\n Closing the client 1");
+        printf("\n Closing the client 1");
         pthread_exit(NULL);
     }
 
@@ -160,7 +162,7 @@ void *connectionWorkerHandle(void * socketId)
         if (returnCode <= 0)
         {
             ftpData.clients[theSocketId].closeTheClient = 1;
-            //printf("\n Closing the client 2");
+            printf("\n Closing the client 2");
             pthread_exit(NULL);
         }
 
@@ -205,6 +207,7 @@ void *connectionWorkerHandle(void * socketId)
   }
   else if (ftpData.clients[theSocketId].workerData.activeModeOn == 1)
   {
+    // printf("\nWORKER CREATED activeModeOn");
     ftpData.clients[theSocketId].workerData.socketConnection = createActiveSocket(ftpData.clients[theSocketId].workerData.connectionPort, ftpData.clients[theSocketId].workerData.activeIpAddress);
 
 	#ifdef OPENSSL_ENABLED
@@ -846,7 +849,7 @@ static int processCommand(int processingElement)
     }    
     else if(compareStringCaseInsensitive(ftpData.clients[processingElement].theCommandReceived, "PASV", strlen("PASV")) == 1)
     {
-        //printf("\nPASV COMMAND RECEIVED");
+        // printf("\nPASV COMMAND RECEIVED");
         toReturn = parseCommandPasv(&ftpData, processingElement);
     }
     else if(compareStringCaseInsensitive(ftpData.clients[processingElement].theCommandReceived, "PORT", strlen("PORT")) == 1)
@@ -951,7 +954,8 @@ static int processCommand(int processingElement)
     }
     else
     {
-        ; //Parse unsupported command not needed
+        //Parse unsupported command not needed
+        printf("\nParse unsupported command not needed");
     }
 
     ftpData.clients[processingElement].commandIndex = 0;

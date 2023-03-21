@@ -312,7 +312,7 @@ int FILE_GetStringFromFile(char * filename, char **file_content, DYNMEM_MemoryTa
 
     if (file == NULL)
     {
-        fclose(file);
+        // fclose(file);
         return 0;
     }
 

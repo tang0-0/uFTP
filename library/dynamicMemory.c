@@ -67,6 +67,7 @@ void *DYNMEM_malloc(size_t bytes, DYNMEM_MemoryTable_DataType **memoryListHead, 
 		if(newItem == NULL)
 		{
 			report_error_q("Memory allocation error, no room for memory list item.",__FILE__,__LINE__, 0);
+			return NULL;
 		}
 
 		DYNMEM_IncreaseMemoryCounter(bytes + sizeof(DYNMEM_MemoryTable_DataType));

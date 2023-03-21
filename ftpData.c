@@ -199,9 +199,9 @@ void appendToDynamicStringDataType(dynamicStringDataType *dynamicString, char *t
 void setRandomicPort(ftpDataType *data, int socketPosition)
 {
     unsigned short int randomicPort = 5000;
-    int i;
+    int i = 0;
 
-  randomicPort = data->ftpParameters.connectionPortMin + (rand()%(data->ftpParameters.connectionPortMax - data->ftpParameters.connectionPortMin)); 
+    randomicPort = data->ftpParameters.connectionPortMin + (rand()%(data->ftpParameters.connectionPortMax - data->ftpParameters.connectionPortMin)); 
 
    while (i < data->ftpParameters.maxClients)
    {
