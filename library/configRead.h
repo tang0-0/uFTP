@@ -33,7 +33,7 @@ extern "C" {
 #include "dynamicMemory.h"
 #include "../ftpData.h"
 
-#define DEFAULT_CONFIGURATION_FILENAME      "/etc/uftpd.cfg"
+// #define DEFAULT_CONFIGURATION_FILENAME      "/etc/uftpd.cfg"
 #define LOCAL_CONFIGURATION_FILENAME        "./uftpd.cfg"
     
 
@@ -43,6 +43,7 @@ int searchUser(char *name, DYNV_VectorGenericDataType *usersVector);
 void configurationRead(ftpParameters_DataType *ftpParameters, DYNMEM_MemoryTable_DataType **memoryTable);
 void applyConfiguration(ftpParameters_DataType *ftpParameters);
 
+void configurationSetPath(const char* path);
 
 #ifdef __cplusplus
 }

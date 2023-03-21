@@ -520,6 +520,11 @@ void *connectionWorkerHandle(void * socketId)
   return NULL;
 }
 
+void setConfPath(const char *path)
+{
+    configurationSetPath(path);
+}
+
 void runFtpServer(void)
 {
     printf("\nHello uFTP server %s starting..\n", UFTP_SERVER_VERSION);

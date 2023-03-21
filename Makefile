@@ -1,14 +1,14 @@
 #Linux Generic
-CC=arm-linux-gnueabihf-gcc
+CC=gcc
 
-OUTPATH=./build/
+OUTPATH=./
 SOURCE_MODULES_PATH=./library/
 
 #FOR DEBUG PURPOSE
-CFLAGSTEMP=-c -Wall -I. -g -O0
+# CFLAGSTEMP=-c -Wall -I. -g -O0
 
 #FOR RELEASE
-# CFLAGSTEMP=-c -Wall -I.
+CFLAGSTEMP=-c -Wall -I.
 
 OPTIMIZATION=-O3
 HEADERS=-I

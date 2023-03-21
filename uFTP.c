@@ -24,12 +24,31 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <unistd.h>
 
 #include "ftpServer.h"
 
-int main(int argc, char** argv) 
+int main(int argc, char **argv)
 {
+    int c = 0;
+    while ((c = getopt(argc, argv, "f:h")) != -1)
+    {
+        switch (c)
+        {
+        case 'f':
+            setConfPath(optarg);
+            break;
+        case 'h':
+            printf("Usage: %s [options]\n", argv[0]);
+            printf("  -f <config_file>\n");
+            printf("  -h help\n");
+            return 0;
+        default:
+            printf("ignore unknown arg: -%c\n", optopt);
+            break;
+        }
+    }
+
     runFtpServer();
     return (EXIT_SUCCESS);
 }

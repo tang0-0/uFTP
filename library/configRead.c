@@ -40,6 +40,7 @@
 #include "dynamicMemory.h"
 
 #define PARAMETER_SIZE_LIMIT        1024
+static char gl_conf_path[256]={0};
 
 /* Private Functions */
 static int parseConfigurationFile(ftpParameters_DataType *ftpParameters, DYNV_VectorGenericDataType *parametersVector);
@@ -76,21 +77,26 @@ int searchUser(char *name, DYNV_VectorGenericDataType *usersVector)
     return returnCode;
 }
 
+void configurationSetPath(const char *path)
+{
+    strncpy(gl_conf_path, path, sizeof(gl_conf_path));
+}
+
 void configurationRead(ftpParameters_DataType *ftpParameters, DYNMEM_MemoryTable_DataType **memoryTable)
 {
     int returnCode = 0;
     DYNV_VectorGenericDataType configParameters;
     DYNV_VectorGeneric_Init(&configParameters);
 
-    if (FILE_IsFile(LOCAL_CONFIGURATION_FILENAME) == 1)
+    if (FILE_IsFile(gl_conf_path) == 1)
+    {
+        printf("\nReading configuration from \n -> %s \n", gl_conf_path);
+        returnCode = readConfigurationFile(gl_conf_path, &configParameters, &*memoryTable);
+    }
+    else if (FILE_IsFile(LOCAL_CONFIGURATION_FILENAME) == 1)
     {
         printf("\nReading configuration from \n -> %s \n", LOCAL_CONFIGURATION_FILENAME);
         returnCode = readConfigurationFile(LOCAL_CONFIGURATION_FILENAME, &configParameters, &*memoryTable);
-    }
-    else if (FILE_IsFile(DEFAULT_CONFIGURATION_FILENAME) == 1)
-    {
-        printf("\nReading configuration from \n -> %s\n", DEFAULT_CONFIGURATION_FILENAME);
-        returnCode = readConfigurationFile(DEFAULT_CONFIGURATION_FILENAME, &configParameters, &*memoryTable);
     }
 
     if (returnCode == 1) 
@@ -99,7 +105,7 @@ void configurationRead(ftpParameters_DataType *ftpParameters, DYNMEM_MemoryTable
     }
     else
     {
-        printf("\nError: could not read the configuration file located at: \n -> %s or at \n -> %s", DEFAULT_CONFIGURATION_FILENAME, LOCAL_CONFIGURATION_FILENAME);
+        printf("\nError: could not read the configuration file\n");
         exit(1);
     }
 

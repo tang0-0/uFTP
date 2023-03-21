@@ -36,5 +36,7 @@ void workerCleanup(void *socketId);
 void signal_callback_handler(int signum);
 void deallocateMemory(void);
 
+void setConfPath(const char *path);
+
 #endif /* FTPSERVER_H */
 
